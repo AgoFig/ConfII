@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/conf_logo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/abc_btn_check_material"></ImageView>
 
         <TextView
@@ -25,11 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/conf_logo"
-            tools:text="aaaaaaaaaaaaaa" />
+            tools:text="El telefono dado vuelta." />
 
         <TextView
             android:id="@+id/talk_speaker_name"
-            tools:text="aaaaaaaaaaaaaa"
+            tools:text="Landscape mode."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/talk_title_text" />

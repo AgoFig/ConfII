@@ -1,35 +1,64 @@
 package ar.com.agostinafigueredo.confii;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
 public class TalkActivity extends Activity {
 
-    @Override
+
+    private TextView talk_title_text;
+
+    private TextView talk_speaker_name;
+
+    private EditText text_input;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        String conferenceTitle;
         String talk_title = "No hay titulo aun.";
 
         String talk_speaker = "No sabemos quien es el orador aun.";
 
-        TextView talk_title_text = (TextView) findViewById(R.id.talk_title_text);
-        TextView talk_speaker_name = (TextView) findViewById(R.id.talk_speaker_name);
+        this.talk_title_text = (TextView) findViewById(R.id.talk_title_text);
+        this.talk_speaker_name = (TextView) findViewById(R.id.talk_speaker_name);
+//        this.text_input = (EditText) findViewById(R.id.edit_text_input);
 
-        talk_title_text.setText(talk_title);
-        talk_speaker_name.setText(talk_speaker);
+        this.talk_title_text.setText(talk_title);
+        this.talk_speaker_name.setText(talk_speaker);
 
-
+//        this.text_input.setOnClickListener(this.dibujarSaludo);
+        //    this.text_input.setOnKeyListener(this.dibujarSaludo);
+        //      this.text_input.setOnEditorActionListener(this.dibujarSaludoEnVivo);
 
     }
+
+    private TextView.OnEditorActionListener dibujarSaludoEnVivo = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+            talk_title_text.setText(text_input.getText());
+            return true;
+        }
+    };
+
+    private View.OnKeyListener dibujarSaludo = new View.OnKeyListener() {
+
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            talk_title_text.setText(text_input.getText());
+
+            return true;
+        }
+
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
