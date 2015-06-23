@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -17,6 +19,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.json.JSONObject;
 
@@ -27,8 +31,9 @@ public class TalkActivity extends Activity {
 
 
     private TextView talk_title_text;
-
+    private RelativeLayout firstTalkContainer;
     private TextView talk_speaker_name;
+    private ImageView conferenceImage;
 
     private EditText text_input;
 
@@ -44,7 +49,8 @@ public class TalkActivity extends Activity {
 
         this.talk_title_text = (TextView) findViewById(R.id.talk_title_text);
         this.talk_speaker_name = (TextView) findViewById(R.id.talk_speaker_name);
-        // this.firstTalkContainer= (RelativeLayout) findViewById(R.id.mostrar_conf);
+        this.firstTalkContainer = (RelativeLayout) findViewById(R.id.mostrar_conf);
+        this.conferenceImage = (ImageView) findViewById(R.id.conf_logo);
 //        this.text_input = (EditText) findViewById(R.id.edit_text_input);
 
         this.talk_title_text.setText(talk_title);
@@ -54,12 +60,15 @@ public class TalkActivity extends Activity {
         //    this.text_input.setOnKeyListener(this.dibujarSaludo);
         //      this.text_input.setOnEditorActionListener(this.dibujarSaludoEnVivo);
 
+        configurarUniversalImageLoader();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         this.obtenerDatos(queue);
     }
 
     public void obtenerDatos(RequestQueue queue) {
+
+        final ImageLoader imageLoader = ImageLoader.getInstance();
 
         String confyUrl = "http://confy.wecode.io/api/conferences/13";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, confyUrl, null, new Response.Listener<JSONObject>() {
@@ -69,14 +78,12 @@ public class TalkActivity extends Activity {
                 Gson gson = gsonBuilder.create();
                 Conference conference = gson.fromJson(jsonObject.toString(), Conference.class);
 
-                TalkActivity.this.talk_title_text.setText(conference.getTalks().get(1).getTitle());
-                TalkActivity.this.talk_speaker_name.setText(conference.getTalks().get(1).getSpeakers().get(0).getName());
-/*
+                TalkActivity.this.talk_title_text.setText(conference.getTalks().get(0).getTitle());
+                TalkActivity.this.talk_speaker_name.setText(conference.getTalks().get(0).getSpeakers().get(0).getName());
+                imageLoader.displayImage(conference.getImageUrl(), TalkActivity.this.conferenceImage);
+
                     int length = 3;
                     for (int i = 1; i < length; i++) {
-
-                        JSONObject otherTalk = (JSONObject) jsonObject.getJSONArray("talks").get(i);
-                        JSONObject otherSpeaker = (JSONObject) talk.getJSONArray("speakers").get(i);
 
 
                         //Create a textView, set a random ID and position it below the most recently added view
@@ -84,10 +91,10 @@ public class TalkActivity extends Activity {
                         textView.setId((int) System.currentTimeMillis());
                         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                         layoutParams.addRule(RelativeLayout.BELOW, TalkActivity.this.firstTalkContainer.getId());
-                        textView.setText(otherTalk.getString("title"));
+                        textView.setText(conference.getTalks().get(i).getTitle());
+                        RelativeLayout relativeLayout = new RelativeLayout(TalkActivity.this);
                         relativeLayout.addView(textView, layoutParams);
-                        TalkActivity.this.firstTalkContainer = textView;
-                    }*/
+                    }
 
 
             }
@@ -100,15 +107,13 @@ public class TalkActivity extends Activity {
 
         queue.add(request);
 
-
     }
 
     private void configurarUniversalImageLoader() {
-        /*DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .imageScaleType(ImageScaleType.EXACTLY);
-*/
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .build();
+
+        ImageLoader.getInstance().init(config);
 
     }
 

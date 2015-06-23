@@ -21,4 +21,6 @@ public class Talk {
     public String getTitle() {
         return title;
     }
+
+
 }

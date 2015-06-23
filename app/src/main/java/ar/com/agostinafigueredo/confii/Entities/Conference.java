@@ -7,8 +7,12 @@ import java.util.List;
  */
 public class Conference {
     List<Talk> talks;
-
+    String imageUrl;
     public List<Talk> getTalks() {
         return talks;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
