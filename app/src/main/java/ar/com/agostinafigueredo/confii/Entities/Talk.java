@@ -1,11 +1,12 @@
 package ar.com.agostinafigueredo.confii.Entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by ago on 22/06/15.
  */
-public class Talk {
+public class Talk implements Serializable {
     int id;
     String title;
     String description;

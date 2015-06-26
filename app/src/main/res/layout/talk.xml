@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/reproductor_de_video"
+        android:layout_height="200dp"
+        android:background="@color/abc_search_url_text_normal"
+        android:layout_width="fill_parent">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mostrar_conf"
+        android:layout_below="@+id/reproductor_de_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/abc_action_bar_overflow_padding_end_material"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <ImageView
+            android:id="@+id/conf_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/abc_btn_check_material"
+            android:layout_marginRight="12dp"></ImageView>
+
+        <TextView
+            android:id="@+id/talk_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/conf_logo"
+            tools:text="Nombre de la charla"
+            android:textSize="26sp" />
+
+        <TextView
+            android:layout_toRightOf="@+id/conf_logo"
+            android:id="@+id/talk_speaker_name"
+            tools:text="Bruno Díaz."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/talk_title_text"
+            android:textSize="18sp" />
+
+        <Button
+            tools:text="MG"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+            android:backgroundTint="@color/highlighted_text_material_light"></Button>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/sharing_menu"
+        android:layout_below="@+id/mostrar_conf"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100.0">
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <at.markushi.ui.CircleButton
+                android:layout_width="64dip"
+                android:layout_height="64dip"
+                android:src="@drawable/ic_action_tick"
+                app:cb_color="#99CC00"
+                app:cb_pressedRingWidth="8dip" />
+
+        </FrameLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

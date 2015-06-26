@@ -1,6 +1,7 @@
-package ar.com.agostinafigueredo.confii;
+package ar.com.agostinafigueredo.confii.Activities;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -19,12 +20,15 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import org.json.JSONObject;
 
 import ar.com.agostinafigueredo.confii.Entities.Conference;
+import ar.com.agostinafigueredo.confii.R;
 
 
 public class TalkActivity extends Activity {
@@ -41,8 +45,9 @@ public class TalkActivity extends Activity {
     // a la base de datos.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.talk);
 
+        configurarUniversalImageLoader();
         String talk_title = "No hay titulo aun.";
 
         String talk_speaker = "No sabemos quien es el orador aun.";
@@ -60,7 +65,6 @@ public class TalkActivity extends Activity {
         //    this.text_input.setOnKeyListener(this.dibujarSaludo);
         //      this.text_input.setOnEditorActionListener(this.dibujarSaludoEnVivo);
 
-        configurarUniversalImageLoader();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         this.obtenerDatos(queue);
@@ -68,7 +72,6 @@ public class TalkActivity extends Activity {
 
     public void obtenerDatos(RequestQueue queue) {
 
-        final ImageLoader imageLoader = ImageLoader.getInstance();
 
         String confyUrl = "http://confy.wecode.io/api/conferences/13";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, confyUrl, null, new Response.Listener<JSONObject>() {
@@ -80,7 +83,7 @@ public class TalkActivity extends Activity {
 
                 TalkActivity.this.talk_title_text.setText(conference.getTalks().get(0).getTitle());
                 TalkActivity.this.talk_speaker_name.setText(conference.getTalks().get(0).getSpeakers().get(0).getName());
-                imageLoader.displayImage(conference.getImageUrl(), TalkActivity.this.conferenceImage);
+                ImageLoader.getInstance().displayImage(conference.getImageUrl(), TalkActivity.this.conferenceImage);
 
                     int length = 3;
                     for (int i = 1; i < length; i++) {
@@ -110,7 +113,17 @@ public class TalkActivity extends Activity {
     }
 
     private void configurarUniversalImageLoader() {
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                /*.showImageForEmptyUri(R.drawable.runners)
+                .showImageOnFail(R.drawable.runners)
+                .showImageOnLoading(R.drawable.runners)*/
+                .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(options)
                 .build();
 
         ImageLoader.getInstance().init(config);

@@ -7,4 +7,8 @@
     <string name="talk_title">No hay titulo para esta conferencia.</string>
     <string name="conference_speaker">No hay informacion del orador.</string>
     <string name="call_to_action">Me gusta</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_conference">Conference</string>
 </resources>
