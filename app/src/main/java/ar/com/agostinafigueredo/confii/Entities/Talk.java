@@ -15,6 +15,12 @@ public class Talk implements Serializable {
     String slug;
     ArrayList<Speaker> speakers;
 
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    boolean isLiked;
+
     public ArrayList<Speaker> getSpeakers() {
         return speakers;
     }
@@ -22,6 +28,5 @@ public class Talk implements Serializable {
     public String getTitle() {
         return title;
     }
-
 
 }

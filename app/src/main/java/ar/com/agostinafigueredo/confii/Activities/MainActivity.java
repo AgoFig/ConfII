@@ -15,7 +15,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+/*
+        goToConferences = Button findViewByid(R.id.goToConferences);
+        goToSettings = Button findViewByid(R.id.goToSettings);
+*/
         if (getIntent().getExtras() != null) {
             Talk talk = (Talk) getIntent().getExtras().getSerializable("charla");
 

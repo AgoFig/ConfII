@@ -1,8 +1,8 @@
 package ar.com.agostinafigueredo.confii.Activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -26,22 +26,23 @@ import ar.com.agostinafigueredo.confii.Entities.Conference;
 import ar.com.agostinafigueredo.confii.Entities.Talk;
 import ar.com.agostinafigueredo.confii.R;
 
-public class ConferenceActivity extends Activity {
+public class ConferenceActivity extends ActionBarActivity {
 
     private Button goToConference;
     private Talk firstTalk;
     private RecyclerView talksRecyclerView;
     private LinearLayoutManager layoutManager;
-    private TalkListAdapter talksAdapter = new TalkListAdapter();
+    private TalkListAdapter talksAdapter = new TalkListAdapter(ConferenceActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conference);
 
 //        this.goToConference = (Button) findViewById(R.id.conference_btn);
 
-        goToConference.setOnClickListener(this.goToConferenceIntent);
+        // goToConference.setOnClickListener(this.goToConferenceIntent);
 
         this.talksRecyclerView = (RecyclerView) this.findViewById(R.id.talks);
         this.talksRecyclerView.setHasFixedSize(true);
@@ -110,9 +111,16 @@ public class ConferenceActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            openSettings();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void openSettings() {
+        Intent goToSettingsFromConference = new Intent(ConferenceActivity.this, SettingsActivity.class);
+        startActivity(goToSettingsFromConference);
+    }
+
 }

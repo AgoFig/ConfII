@@ -1,5 +1,7 @@
 package ar.com.agostinafigueredo.confii.Adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.agostinafigueredo.confii.Activities.TalkActivity;
 import ar.com.agostinafigueredo.confii.Entities.Talk;
 import ar.com.agostinafigueredo.confii.R;
 
@@ -19,6 +22,11 @@ public class TalkListAdapter extends RecyclerView.Adapter<TalkListAdapter.Holder
 
     private List<Talk> talks = new ArrayList<Talk>();
 
+    private Context context;
+
+    public TalkListAdapter(Context context) {
+        this.context = context;
+    }
     public void setTalks(List<Talk> talks) {
         this.talks = talks;
         notifyDataSetChanged();
@@ -44,7 +52,11 @@ public class TalkListAdapter extends RecyclerView.Adapter<TalkListAdapter.Holder
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Lo que va a pasar cuando se cliquee un item de la charla.
+
+                Intent goToTalkListFromConference = new Intent(context, TalkActivity.class);
+                //Obtener charla
+                goToTalkListFromConference.putExtra("charla", talk);
+                context.startActivity(goToTalkListFromConference);
             }
         });
 
