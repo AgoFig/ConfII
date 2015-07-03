@@ -20,13 +20,16 @@ import ar.com.agostinafigueredo.confii.R;
  */
 public class TalkListAdapter extends RecyclerView.Adapter<TalkListAdapter.Holder> {
 
+    private final String origin;
     private List<Talk> talks = new ArrayList<Talk>();
 
     private Context context;
 
-    public TalkListAdapter(Context context) {
+    public TalkListAdapter(Context context, String origin) {
         this.context = context;
+        this.origin = origin;
     }
+
     public void setTalks(List<Talk> talks) {
         this.talks = talks;
         notifyDataSetChanged();
@@ -67,6 +70,7 @@ public class TalkListAdapter extends RecyclerView.Adapter<TalkListAdapter.Holder
     public int getItemCount() {
         return this.talks.size();
     }
+
 
     public static class Holder extends RecyclerView.ViewHolder {
 

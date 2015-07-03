@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -15,6 +17,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -37,6 +42,8 @@ public class TalkActivity extends Activity {
     private TextView talk_speaker_name;
     private ImageView conferenceImage;
 
+    private at.markushi.ui.CircleButton likeButton;
+
     private EditText text_input;
 
     // debe ser solo findviewby id y setcontentview no hay que spobrecargarlo nunca con llamados
@@ -51,6 +58,7 @@ public class TalkActivity extends Activity {
         this.talk_speaker_name = (TextView) findViewById(R.id.talk_speaker_name);
         this.firstTalkContainer = (RelativeLayout) findViewById(R.id.mostrar_conf);
         this.conferenceImage = (ImageView) findViewById(R.id.conf_logo);
+        this.likeButton = (at.markushi.ui.CircleButton) findViewById(R.id.like);
 /*        this.text_input = (EditText) findViewById(R.id.edit_text_input);
 
         this.talk_title_text.setText(talk_title);
@@ -62,15 +70,34 @@ public class TalkActivity extends Activity {
             this.talk_title_text.setText(talk.getTitle());
             this.talk_speaker_name.setText(talk.getSpeakers().get(0).getName());
         }
-//        this.text_input.setOnClickListener(this.dibujarSaludo);
-        //    this.text_input.setOnKeyListener(this.dibujarSaludo);
-        //      this.text_input.setOnEditorActionListener(this.dibujarSaludoEnVivo);
+        this.likeButton.setOnClickListener(this.toggleLike);
 
 /*
         RequestQueue queue = Volley.newRequestQueue(this);
         this.obtenerDatos(queue);
   */
     }
+
+
+    private Button.OnClickListener toggleLike = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Talk talk = new Talk();
+            talk.toggleLiked();
+
+            GoogleAnalytics analytics =
+                    GoogleAnalytics.getInstance(TalkActivity.this);
+            Tracker tracker = analytics.newTracker(R.xml.analytics_tracker);
+            tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Buttons")
+                            .setAction("Like")
+                            .setLabel("Likes")
+                            .build()
+            );
+
+        }
+    };
+
 
     public void obtenerDatos(RequestQueue queue) {
 
@@ -87,19 +114,19 @@ public class TalkActivity extends Activity {
                 TalkActivity.this.talk_speaker_name.setText(conference.getTalks().get(0).getSpeakers().get(0).getName());
                 ImageLoader.getInstance().displayImage(conference.getImageUrl(), TalkActivity.this.conferenceImage);
 
-                    int length = 3;
-                    for (int i = 1; i < length; i++) {
+                int length = 3;
+                for (int i = 1; i < length; i++) {
 
 
-                        //Create a textView, set a random ID and position it below the most recently added view
-                        TextView textView = new TextView(TalkActivity.this);
-                        textView.setId((int) System.currentTimeMillis());
-                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                        layoutParams.addRule(RelativeLayout.BELOW, TalkActivity.this.firstTalkContainer.getId());
-                        textView.setText(conference.getTalks().get(i).getTitle());
-                        RelativeLayout relativeLayout = new RelativeLayout(TalkActivity.this);
-                        relativeLayout.addView(textView, layoutParams);
-                    }
+                    //Create a textView, set a random ID and position it below the most recently added view
+                    TextView textView = new TextView(TalkActivity.this);
+                    textView.setId((int) System.currentTimeMillis());
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    layoutParams.addRule(RelativeLayout.BELOW, TalkActivity.this.firstTalkContainer.getId());
+                    textView.setText(conference.getTalks().get(i).getTitle());
+                    RelativeLayout relativeLayout = new RelativeLayout(TalkActivity.this);
+                    relativeLayout.addView(textView, layoutParams);
+                }
 
 
             }

@@ -32,7 +32,7 @@ public class ConferenceActivity extends ActionBarActivity {
     private Talk firstTalk;
     private RecyclerView talksRecyclerView;
     private LinearLayoutManager layoutManager;
-    private TalkListAdapter talksAdapter = new TalkListAdapter(ConferenceActivity.this);
+    private TalkListAdapter talksAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,13 @@ public class ConferenceActivity extends ActionBarActivity {
         this.layoutManager = new LinearLayoutManager(this);
         this.talksRecyclerView.setLayoutManager(this.layoutManager);
         this.talksRecyclerView.setAdapter(this.talksAdapter);
+        String origin = "aca";
+        // ver el conjunto de talks para mostrar, puede ser solo los qeu tienen like
+        if (getIntent().getExtras() != null) {
+            origin = getIntent().getExtras().getString("deDondeVengo");
 
+        }
+        this.talksAdapter = new TalkListAdapter(ConferenceActivity.this, origin);
         // Agregamos los datos al adapter para que los muestre
         this.talksAdapter.notifyDataSetChanged();
 

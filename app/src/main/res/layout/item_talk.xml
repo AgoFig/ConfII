@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="72dp"
     android:id="@+id/item"
-    android:padding="16dp">
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +22,7 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:id="@+id/label_speaker"
-        android:text="Orador Apellido"
+        tools:text="Orador Apellido"
         android:layout_below="@+id/label_talk" />
 
 </RelativeLayout>
